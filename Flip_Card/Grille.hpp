@@ -17,7 +17,8 @@ class Grille : public Window{
         QWidget* centralWidget;
         int nombreEssai;
         bool finDeLaPartie;
-        int idLastCard;
+        //la derniere carte selectionnée:
+        Carte* lastSelectedCard;
     public:
         Grille();
         //melange la grille;
@@ -26,6 +27,10 @@ class Grille : public Window{
         void distribuerCarte();
         //destructeur, il detruira les éléments du tableau listeCarte alloués dynamiquement au cours du programme
         ~Grille();
+        //check si la partie est finie ou non
+        void isOver() ;
+        //Si la partie est finie, cela fera apparaître une boîte de dialogue
+        void endGame();
         void flipCard(int i,int j);
 public slots:
         void onClic();

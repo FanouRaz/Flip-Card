@@ -3,23 +3,18 @@
 #include<QMenuBar>
 #include<QApplication>
 #include<QMessageBox>
+#include"Grille.hpp"
 Window::Window()
 {
     //Définition de la Barre de menu
     QMenu *menuJeu = menuBar()->addMenu("&Jeu");
-    QAction *actionNouvellePartie = new QAction("&Nouvelle Partie", this);
-    menuJeu->addAction(actionNouvellePartie);
-    QAction *actionJoker = new QAction("&Joker", this);
-    menuJeu->addAction(actionJoker);
     QAction *actionQuitter = new QAction("&Quitter", this);
     menuJeu->addAction(actionQuitter);
     QAction *actionAide = menuBar()->addAction("&Aide");
     setWindowTitle("Flip Card");
     setWindowIcon(QIcon("images/verso.jpg"));
     //Ajout de raccourci clavier associé aux éléments du menu
-    actionNouvellePartie->setShortcut(QKeySequence("Ctr+N"));
     actionQuitter->setShortcut(QKeySequence("Ctrl+Q"));
-    actionJoker->setShortcut(QKeySequence("Ctrl+J"));
     actionAide->setShortcut(QKeySequence("Ctrl+H"));
     //Evenement associés au menu
     QObject::connect(actionQuitter, SIGNAL(triggered()), this, SLOT(quitter()));
