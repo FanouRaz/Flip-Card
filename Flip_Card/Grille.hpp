@@ -15,10 +15,15 @@ class Grille : public Window{
         Carte* listeCarte[2][6];
         QGridLayout* layout;
         QWidget* centralWidget;
+        //Nombre d'essai :
         int nombreEssai;
         bool finDeLaPartie;
         //la derniere carte selectionnée:
         Carte* lastSelectedCard;
+        //La carte actuellemenent selectionnée:
+        Carte* selectedCard;
+        //Un booléen qui comparera si lastSelectedCard et selectedCard sont pareil
+        bool pair;
     public:
         Grille();
         //melange la grille;
@@ -31,7 +36,6 @@ class Grille : public Window{
         void isOver() ;
         //Si la partie est finie, cela fera apparaître une boîte de dialogue
         void endGame();
-        void flipCard(int i,int j);
 public slots:
         void onClic();
 };

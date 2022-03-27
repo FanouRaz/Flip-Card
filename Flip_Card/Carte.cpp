@@ -6,6 +6,7 @@ Carte::Carte(int identifiant){
     setPixmap(back);
     recto=false;
 
+
 }
 
 //retourne true si la carte est en face recto, false sinon

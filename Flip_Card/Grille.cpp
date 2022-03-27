@@ -3,8 +3,10 @@
 #include<QMessageBox>
     Grille::Grille(){
         //Initialisation
+        selectedCard=nullptr;
         lastSelectedCard = nullptr;
         nombreEssai=0;
+        pair=false;
         centralWidget = new QWidget();
         srand(time(nullptr));
         layout = new QGridLayout(centralWidget);
@@ -70,30 +72,38 @@
             endGame();
         }
     }
-    void Grille::flipCard(int i,int j){
-        listeCarte[i][j]->flip();
-        }
     //Evenement provoqué après chaque clic d'image^
     void Grille::onClic(){
         isOver();
-        if(!((Carte*)sender())->isRecto()){
-            ((Carte*)sender())->flip();
-            nombreEssai++;
-            //Si c'est le premier clic ou si les 2 derniers clics ont permis d'identifier une pair
-            if(lastSelectedCard == nullptr){
-                        lastSelectedCard = ((Carte*)sender());
-                    }
-            //Si la carte du dernier clic n'est pas semblable à celle du clic actuel
-            else if(lastSelectedCard->getId() != ((Carte*)sender())->getId() && lastSelectedCard != nullptr){
-                    lastSelectedCard->flip();
-                    ((Carte*)sender())->flip();
-                    lastSelectedCard=nullptr;
-               }
-            //Si la carte du dernier clic est semblable à celle du clic actuel
-            else if(lastSelectedCard->getId() == ((Carte*)sender())->getId()){
-                lastSelectedCard = nullptr;
+       if(!((Carte*)sender())->isRecto()){
+           ((Carte*)sender())->flip();
+           nombreEssai++;
+          if(!pair && selectedCard != nullptr && lastSelectedCard != nullptr){
+            // si après avoir cliqué 2 cartes on ne trouve pas une pair, les 2 cartes seront retournées au prochain clic
+            lastSelectedCard->flip();
+            selectedCard->flip();
+            lastSelectedCard = (Carte*)sender();
+            selectedCard=nullptr;
             }
-            qDebug() <<"Carte cliquer carte " <<((Carte*)sender())->getId() << "\n";
+            //lors du premier clic
+            else if(selectedCard == nullptr && lastSelectedCard == nullptr){
+                lastSelectedCard = (Carte*)sender();
+            }
+            //Si une carte a été selectionnée auparavant
+            else if(lastSelectedCard != nullptr){
+                //Si la carte du dernier clic n'est pas semblable à celle du clic actuel
+                selectedCard = (Carte*)sender();
+                if(lastSelectedCard->getId() != ((Carte*)sender())->getId()){
+                    pair=false;
+               }
+                //Si la carte du dernier clic est semblable à celle du clic actuel
+                 else if(lastSelectedCard->getId() == ((Carte*)sender())->getId()){
+                    pair = true;
+                    lastSelectedCard = nullptr;
+                    selectedCard = nullptr;
+                }
+             }
+            qDebug() <<"lastSelectedCard: carte"<<((Carte*)sender())->getId() << "\n";
             //A chaque clic on vérifie si le jeu est achevé//
         }
         isOver();
