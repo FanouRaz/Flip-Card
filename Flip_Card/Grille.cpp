@@ -55,26 +55,22 @@
      }
     //Vérifie si la partie est achevée
     void Grille::isOver(){
-        int i,j;
-        for(i=0;i<2;i++){
-            for(j=0;j<6;j++){
-                if(!listeCarte[i][j]->isRecto()){
-                    finDeLaPartie=false;
-                    break;
-                }
-                if(j!=5 && !listeCarte[i][5]->isRecto()){
-                    break;
+        int carteRecto(0);
+        for(int i(0);i<2;i++){
+            for(int j(0);j<6;j++){
+                if(listeCarte[i][j]->isRecto()){
+                    carteRecto++;
                 }
             }
         }
-        if(i==1 && j==5 && !listeCarte[1][5]->isRecto()){
+        if(carteRecto == 12){
             finDeLaPartie=true;
             endGame();
         }
     }
     //Evenement provoqué après chaque clic d'image^
     void Grille::onClic(){
-        isOver();
+       isOver();
        if(!((Carte*)sender())->isRecto()){
            ((Carte*)sender())->flip();
            nombreEssai++;
@@ -103,10 +99,10 @@
                     selectedCard = nullptr;
                 }
              }
-            qDebug() <<"lastSelectedCard: carte"<<((Carte*)sender())->getId() << "\n";
+            qDebug() <<nombreEssai << "\n";
             //A chaque clic on vérifie si le jeu est achevé//
+            isOver();
         }
-        isOver();
     }
     void Grille::endGame(){
         //Affichera une boite de confirmation si l'on souhaite quitter ou non
