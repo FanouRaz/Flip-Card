@@ -8,7 +8,8 @@ class Window : public QMainWindow{
 Q_OBJECT
 public:
     Window();
-    public slots:
+public slots:
+    //fonctions associées au clic des boutons quitter et aide
     void quitter();
     void aide();
 

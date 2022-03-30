@@ -1,5 +1,4 @@
 #include"Grille.hpp"
-#include<QDebug>
 #include<QMessageBox>
     Grille::Grille(){
         //Initialisation
@@ -52,6 +51,8 @@
                 delete listeCarte[i][j];
             }
         }
+        delete centralWidget;
+        delete layout;
      }
     //Vérifie si la partie est achevée
     void Grille::isOver(){
@@ -99,13 +100,12 @@
                     selectedCard = nullptr;
                 }
              }
-            qDebug() <<nombreEssai << "\n";
             //A chaque clic on vérifie si le jeu est achevé//
             isOver();
         }
     }
     void Grille::endGame(){
-        //Affichera une boite de confirmation si l'on souhaite quitter ou non
+        //Lorsque la partie est terminée, un message apparaîtra pour nous demander si l'on souhaite rejouer ou non
         int reponse = QMessageBox::question(this, "Fin de la partie!",
         "Fin de la partie. Vous avez effectué "+QString::number(nombreEssai)+" essai. Voulez-vous rejouer?", QMessageBox ::Yes | QMessageBox::No);
         if (reponse == QMessageBox::Yes)
